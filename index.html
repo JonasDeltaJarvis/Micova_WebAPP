@@ -761,25 +761,34 @@ const Data = {
       if (!p) return null;
       return { ...p, author: MOCK.profiles[p.author_id] || null };
     }
-    // Try by id first, then slug
-    let { data, error } = await sb
-      .from('posts')
-      .select('*, author:profiles(*)')
-      .eq('id', id)
-      .eq('status', 'published')
-      .maybeSingle();
 
-    if (!data && !error) {
-      // Try as slug
-      ({ data, error } = await sb
-        .from('posts')
-        .select('*, author:profiles(*)')
-        .eq('slug', id)
-        .eq('status', 'published')
-        .maybeSingle());
+    // Try by ID first, then by slug — no join to avoid ambiguous FK error
+    let post = null;
+
+    const { data: byId } = await sb
+      .from('posts').select('*')
+      .eq('id', id).eq('status', 'published').maybeSingle();
+    post = byId;
+
+    if (!post) {
+      const { data: bySlug } = await sb
+        .from('posts').select('*')
+        .eq('slug', id).eq('status', 'published').maybeSingle();
+      post = bySlug;
     }
-    if (error) console.error('[Data.getPost]', error);
-    return data || null;
+
+    if (!post) return null;
+
+    // Fetch author separately to avoid the ambiguous relationship error
+    if (post.author_id) {
+      const { data: author } = await sb
+        .from('profiles')
+        .select('id, username, full_name, avatar_url, bio')
+        .eq('id', post.author_id).maybeSingle();
+      post.author = author || null;
+    }
+
+    return post;
   },
 
   // ── getPostsByType ── fetch list of posts filtered by type
