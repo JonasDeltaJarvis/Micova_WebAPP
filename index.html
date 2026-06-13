@@ -792,13 +792,13 @@ const Data = {
     }
     const { data, error } = await sb
       .from('posts')
-      .select('id, slug, type, title, excerpt, category, cover_image, read_time, published_at, view_count, clap_count, author:profiles(id, full_name, username, avatar_url)')
+      .select('id, slug, type, title, excerpt, category, cover_image, read_time, published_at, view_count, clap_count, author_id')
       .eq('type', type)
       .eq('status', 'published')
       .order('published_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
-    if (error) console.error('[Data.getPostsByType]', error);
+    if (error) { console.error('[Data.getPostsByType]', error.message, error.code, error.details); return []; }
     return data || [];
   },
 
@@ -816,7 +816,7 @@ const Data = {
       .order('view_count', { ascending: false })
       .limit(limit);
 
-    if (error) console.error('[Data.getMostRead]', error);
+    if (error) { console.error('[Data.getMostRead]', error.message, error.code); return []; }
     return data || [];
   },
 
@@ -1222,7 +1222,7 @@ const Data = {
       return MOCK.posts.map(p => ({ ...p, author: MOCK.profiles[p.author_id] || null }));
     }
     const { data, error } = await sb.from('posts')
-      .select('id, slug, type, title, status, category, published_at, view_count, clap_count, comment_count, author:profiles(full_name)')
+      .select('id, slug, type, title, status, category, published_at, view_count, clap_count, comment_count, author_id')
       .order('created_at', { ascending: false })
       .limit(limit);
     if (error) { console.error('[adminGetAllPosts]', error); return []; }
