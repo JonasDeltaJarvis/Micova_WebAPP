@@ -3291,9 +3291,7 @@ const Pages = {
       const plural = type === 'story' ? 'Stories' : typeLabel + 's';
 
       // Field config per type
-      const fields = {
-        // Shared text fields per type
-        const textFields = {
+      const textFields = {
           article: [
             { id:'title',     label:'Title',           type:'text',   required:true,  placeholder:'Article title' },
             { id:'category',  label:'Category',        type:'text',   required:false, placeholder:'e.g. Education, Culture' },
