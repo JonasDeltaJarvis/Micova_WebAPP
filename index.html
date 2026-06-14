@@ -722,6 +722,150 @@ button { font-family: var(--font-sans); cursor: pointer; }
   .admin-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
   .admin-content { padding: 16px; }
 }
+
+/* ══════════════════════════════════════
+   ANIMATIONS & INTERACTIONS
+══════════════════════════════════════ */
+
+/* Page entrance */
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes scaleIn { from { opacity:0; transform:scale(.96); } to { opacity:1; transform:scale(1); } }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+@keyframes pulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(34,211,238,0)} 50%{box-shadow:0 0 0 6px rgba(34,211,238,.12)} }
+@keyframes clap-pop { 0%{transform:scale(1)} 40%{transform:scale(1.35)} 70%{transform:scale(.92)} 100%{transform:scale(1)} }
+@keyframes slideDown { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+
+#app > * { animation: fadeUp .35s ease both; }
+.modal { animation: scaleIn .2s ease both; }
+.toast { animation: slideDown .2s ease both; }
+
+/* Card hover — glowing border */
+.article-card {
+  transition: background .2s, transform .22s cubic-bezier(.34,1.56,.64,1), border-color .2s, box-shadow .2s;
+}
+.article-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34,211,238,.35);
+  box-shadow: 0 0 0 1px rgba(34,211,238,.15), 0 12px 32px rgba(0,0,0,.3);
+}
+
+.video-card {
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+}
+.video-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 0 1.5px rgba(34,211,238,.3), 0 16px 40px rgba(0,0,0,.4);
+}
+
+.thought-card {
+  transition: background .2s, transform .22s cubic-bezier(.34,1.56,.64,1), border-color .2s, box-shadow .2s;
+}
+.thought-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34,211,238,.3);
+  box-shadow: 0 0 0 1px rgba(34,211,238,.12), 0 12px 32px rgba(0,0,0,.3);
+}
+
+.story-card {
+  transition: background .2s, transform .22s cubic-bezier(.34,1.56,.64,1), border-color .2s, box-shadow .2s;
+}
+.story-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34,211,238,.3);
+  box-shadow: 0 0 0 1px rgba(34,211,238,.12), 0 12px 32px rgba(0,0,0,.3);
+}
+
+/* Most read item */
+.most-read-item { transition: opacity .15s, transform .15s; }
+.most-read-item:hover { opacity:1 !important; transform: translateX(4px); }
+.most-read-num { transition: color .15s; }
+.most-read-item:hover .most-read-num { opacity: 1; }
+
+/* Nav links */
+.nav-link { transition: color .15s; position: relative; }
+.nav-link::before { content:''; position:absolute; bottom:-2px; left:14px; right:14px; height:2px; background:var(--cyan); border-radius:1px; transform:scaleX(0); transition:transform .2s cubic-bezier(.34,1.56,.64,1); }
+.nav-link:hover::before { transform:scaleX(.5); }
+.nav-link.active::before { transform:scaleX(1); }
+
+/* CTA & buttons */
+.hero-cta { transition: transform .2s cubic-bezier(.34,1.56,.64,1), opacity .15s, box-shadow .2s; }
+.hero-cta:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 24px rgba(34,211,238,.25); }
+
+.section-view-all { transition: gap .2s, color .15s, transform .15s; }
+.section-view-all:hover { transform: translateX(2px); }
+
+/* Reader action buttons */
+.reader-action-btn { transition: all .18s cubic-bezier(.34,1.56,.64,1); }
+.reader-action-btn:hover { transform: translateY(-1px); }
+.reader-action-btn.active { animation: pulseGlow .5s ease; }
+
+/* Clap button */
+.clap-btn { transition: all .18s cubic-bezier(.34,1.56,.64,1); }
+.clap-btn:hover { transform: scale(1.04); }
+.clap-btn.clap-animate svg { animation: clap-pop .35s cubic-bezier(.34,1.56,.64,1); }
+
+/* Sidebar post items */
+.sidebar-post-item { transition: opacity .15s, transform .15s; }
+.sidebar-post-item:hover { transform: translateX(3px); }
+.sidebar-most-read-item { transition: opacity .15s, transform .15s; }
+.sidebar-most-read-item:hover { transform: translateX(3px); }
+
+/* Footer btn */
+.footer-btn { transition: opacity .15s, transform .15s; }
+.footer-btn:hover { transform: scale(1.03); }
+
+/* Admin nav items */
+.admin-nav-item { transition: all .15s; }
+
+/* Skeleton loader */
+.skeleton { background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+
+/* Image zoom on card hover (already was scale(1.03), make nicer) */
+.article-card-image img { transition: transform .5s cubic-bezier(.25,.46,.45,.94); }
+.article-card:hover .article-card-image img { transform: scale(1.06); }
+.story-card-image img { transition: transform .5s cubic-bezier(.25,.46,.45,.94); }
+.story-card:hover .story-card-image img { transform: scale(1.06); }
+.video-card-thumb img { transition: transform .5s cubic-bezier(.25,.46,.45,.94), filter .3s; }
+.video-card:hover .video-card-thumb img { transform: scale(1.07); }
+
+/* History & draft items */
+.history-item { transition: opacity .15s, transform .15s, background .15s; }
+.history-item:hover { transform: translateX(4px); background: rgba(255,255,255,.02); }
+.draft-card { transition: background .2s, transform .15s, border-color .2s; }
+.draft-card:hover { transform: translateY(-2px); border-color: rgba(34,211,238,.25); }
+
+/* Notification items */
+.notif-item { transition: background .15s, transform .15s; }
+.notif-item:hover { transform: translateX(3px); }
+
+/* Settings section */
+.settings-section { transition: border-color .2s, box-shadow .2s; }
+.settings-section:hover { border-color: rgba(34,211,238,.15); }
+
+/* Smooth scroll reveal — stagger cards */
+.articles-grid .article-card:nth-child(1) { animation-delay: .05s; }
+.articles-grid .article-card:nth-child(2) { animation-delay: .1s; }
+.articles-grid .article-card:nth-child(3) { animation-delay: .15s; }
+.articles-grid .article-card:nth-child(4) { animation-delay: .2s; }
+.videos-grid .video-card:nth-child(1) { animation-delay: .05s; }
+.videos-grid .video-card:nth-child(2) { animation-delay: .1s; }
+.videos-grid .video-card:nth-child(3) { animation-delay: .15s; }
+.thoughts-grid .thought-card:nth-child(1) { animation-delay: .05s; }
+.thoughts-grid .thought-card:nth-child(2) { animation-delay: .1s; }
+.thoughts-grid .thought-card:nth-child(3) { animation-delay: .15s; }
+
+/* ── FILE UPLOAD ── */
+.upload-field { display:flex; gap:8px; align-items:center; }
+.upload-field input[type="text"] { flex:1; }
+.upload-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 14px; background:var(--bg-elevated); border:1px solid var(--border-card); border-radius:8px; font-size:12px; font-weight:600; color:var(--text-secondary); cursor:pointer; transition:all .15s; white-space:nowrap; flex-shrink:0; }
+.upload-btn:hover { color:var(--cyan); border-color:rgba(34,211,238,.3); }
+.upload-btn input[type="file"] { display:none; }
+.upload-preview { width:100%; height:140px; border-radius:8px; overflow:hidden; background:var(--bg-elevated); border:1px solid var(--border-card); margin-top:8px; display:none; position:relative; }
+.upload-preview img { width:100%; height:100%; object-fit:cover; }
+.upload-preview-remove { position:absolute; top:8px; right:8px; width:26px; height:26px; border-radius:50%; background:rgba(0,0,0,.7); border:none; color:#fff; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; }
+.upload-progress { height:3px; background:rgba(255,255,255,.08); border-radius:2px; margin-top:6px; overflow:hidden; display:none; }
+.upload-progress-bar { height:100%; background:var(--cyan); border-radius:2px; transition:width .3s; width:0%; }
 </style>
 </head>
 <body>
@@ -1119,16 +1263,26 @@ const Data = {
     }
     if (!Auth.isLoggedIn) return [];
 
-    const { data, error } = await sb
+    // Fetch bookmarks then posts separately to avoid ambiguous FK join
+    const { data: bks, error } = await sb
       .from('post_bookmarks')
-      .select('post:posts(*, author:profiles(full_name, avatar_url))')
+      .select('post_id, created_at')
       .eq('user_id', Auth.userId)
       .order('created_at', { ascending: false });
 
-    if (error) { console.error('[Data.getBookmarks]', error); return []; }
-    // Hydrate bookmark cache
-    (data || []).forEach(d => { if (d.post) State.bookmarks.add(d.post.id); });
-    return (data || []).map(d => d.post).filter(Boolean);
+    if (error) { console.error('[Data.getBookmarks]', error.message); return []; }
+    if (!bks || bks.length === 0) return [];
+
+    const ids = bks.map(b => b.post_id);
+    const { data: posts } = await sb
+      .from('posts')
+      .select('id, slug, type, title, excerpt, cover_image, category, read_time, published_at, view_count, author_id')
+      .in('id', ids)
+      .eq('status', 'published');
+
+    const ordered = ids.map(id => (posts||[]).find(p => p.id === id)).filter(Boolean);
+    ordered.forEach(p => State.bookmarks.add(p.id));
+    return ordered;
   },
 
   // ── recordView ── track reading history (fire-and-forget)
@@ -1296,6 +1450,25 @@ const Data = {
   async deleteDraft(draftId) {
     if (isMock()) { const idx = MOCK.posts.findIndex(p => p.id === draftId); if (idx>=0) MOCK.posts.splice(idx,1); return; }
     await sb.from('posts').delete().eq('id', draftId).eq('author_id', Auth.userId);
+  },
+
+
+  // ── uploadFile ── upload to Supabase Storage
+  async uploadFile(file, bucket = 'covers') {
+    if (isMock()) {
+      // Return a fake URL in demo mode
+      return URL.createObjectURL(file);
+    }
+    const ext  = file.name.split('.').pop().toLowerCase();
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { data, error } = await sb.storage.from(bucket).upload(path, file, {
+      cacheControl: '3600',
+      upsert: false,
+      contentType: file.type,
+    });
+    if (error) throw new Error(error.message);
+    const { data: { publicUrl } } = sb.storage.from(bucket).getPublicUrl(path);
+    return publicUrl;
   },
 
   // ── SITE SETTINGS ──
@@ -1864,6 +2037,62 @@ const UI = {
     document.body.style.overflow = '';
   },
 
+  // Render an upload widget for a field
+  uploadWidget(fieldId, label, accept = 'image/*', bucket = 'covers') {
+    const uid = fieldId + '_upload';
+    return `
+      <div class="admin-form-field">
+        <label class="admin-form-label">${label}</label>
+        <div class="upload-field">
+          <input class="admin-form-input" id="${fieldId}" type="url" placeholder="https://… or upload below">
+          <label class="upload-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload
+            <input type="file" accept="${accept}" onchange="UI.handleUpload(event,'${fieldId}','${bucket}')">
+          </label>
+        </div>
+        <div class="upload-progress" id="${uid}_progress"><div class="upload-progress-bar" id="${uid}_bar"></div></div>
+        <div class="upload-preview" id="${uid}_preview">
+          <img id="${uid}_img" src="" alt="preview">
+          <button class="upload-preview-remove" onclick="UI.removeUpload('${fieldId}','${uid}')">×</button>
+        </div>
+      </div>`;
+  },
+
+  async handleUpload(event, fieldId, bucket) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const uid = fieldId + '_upload';
+    const prog = document.getElementById(uid + '_progress');
+    const bar  = document.getElementById(uid + '_bar');
+    const prev = document.getElementById(uid + '_preview');
+    const img  = document.getElementById(uid + '_img');
+
+    if (prog) { prog.style.display='block'; bar.style.width='20%'; }
+    try {
+      bar && (bar.style.width = '60%');
+      const url = await Data.uploadFile(file, bucket);
+      if (bar) bar.style.width = '100%';
+      // Fill the URL input
+      const input = document.getElementById(fieldId);
+      if (input) input.value = url;
+      // Show preview
+      if (prev && img) { img.src = url; prev.style.display = 'block'; }
+      setTimeout(() => { if (prog) prog.style.display='none'; }, 600);
+      UI.toast('Uploaded!', 'success');
+    } catch(e) {
+      if (prog) prog.style.display = 'none';
+      UI.toast('Upload failed: ' + e.message, 'error');
+    }
+  },
+
+  removeUpload(fieldId, uid) {
+    const input = document.getElementById(fieldId);
+    const prev  = document.getElementById(uid + '_preview');
+    if (input) input.value = '';
+    if (prev)  prev.style.display = 'none';
+  },
+
   formatDate(iso) {
     try {
       return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
@@ -2333,9 +2562,10 @@ const Pages = {
 
   async handleClap(postId) {
     if (!Auth.require()) return;
+    const btn = document.getElementById('clap-btn');
+    if (btn) { btn.classList.add('clap-animate'); setTimeout(() => btn.classList.remove('clap-animate'), 400); }
     try {
       const newCount = await Data.addClap(postId);
-      const btn = document.getElementById('clap-btn');
       const label = document.getElementById('clap-count-label');
       if (btn) { btn.classList.add('clapped'); btn.querySelector('svg').setAttribute('fill','currentColor'); }
       if (label) label.textContent = newCount;
@@ -3062,40 +3292,38 @@ const Pages = {
 
       // Field config per type
       const fields = {
-        article: [
-          { id:'title',       label:'Title',          type:'text',     required:true,  placeholder:'Article title' },
-          { id:'category',    label:'Category',       type:'text',     required:false, placeholder:'e.g. Education, Culture' },
-          { id:'cover_image', label:'Cover image URL',type:'url',      required:false, placeholder:'https://images.unsplash.com/…' },
-          { id:'excerpt',     label:'Excerpt',        type:'text',     required:false, placeholder:'One-sentence summary' },
-          { id:'read_time',   label:'Read time (min)',type:'number',   required:false, placeholder:'8' },
-          { id:'body',        label:'Body (HTML)',    type:'textarea', required:false, placeholder:'<p>Your content here…</p>', full:true },
-        ],
-        story: [
-          { id:'title',       label:'Title',          type:'text',     required:true,  placeholder:'Story title' },
-          { id:'category',    label:'Category',       type:'text',     required:false, placeholder:'e.g. Fiction, Memoir' },
-          { id:'cover_image', label:'Cover image URL',type:'url',      required:false, placeholder:'https://images.unsplash.com/…' },
-          { id:'excerpt',     label:'Excerpt',        type:'text',     required:false, placeholder:'One-sentence hook' },
-          { id:'read_time',   label:'Read time (min)',type:'number',   required:false, placeholder:'14' },
-          { id:'body',        label:'Body (HTML)',    type:'textarea', required:false, placeholder:'<p>Your story…</p>', full:true },
-        ],
-        video: [
-          { id:'title',       label:'Title',          type:'text',     required:true,  placeholder:'Video title' },
-          { id:'category',    label:'Category',       type:'text',     required:false, placeholder:'e.g. Documentary, Essay' },
-          { id:'duration',    label:'Duration (e.g. 12:04)', type:'text', required:false, placeholder:'12:04' },
-          { id:'cover_image', label:'Thumbnail URL',  type:'url',      required:false, placeholder:'https://images.unsplash.com/…' },
-          { id:'video_url',   label:'Video URL (MP4 or YouTube embed)', type:'url', required:false, placeholder:'https://www.youtube.com/embed/…' },
-          { id:'body',        label:'Description',    type:'textarea', required:false, placeholder:'<p>Video description…</p>', full:true },
-        ],
-        thought: [
-          { id:'title',       label:'Title',          type:'text',     required:true,  placeholder:'Thought title' },
-          { id:'category',    label:'Category',       type:'text',     required:false, placeholder:'e.g. Reflection' },
-          { id:'body',        label:'Content',        type:'textarea', required:false, placeholder:'Write your thought…', full:true },
-        ],
-      };
+        // Shared text fields per type
+        const textFields = {
+          article: [
+            { id:'title',     label:'Title',           type:'text',   required:true,  placeholder:'Article title' },
+            { id:'category',  label:'Category',        type:'text',   required:false, placeholder:'e.g. Education, Culture' },
+            { id:'excerpt',   label:'Excerpt',         type:'text',   required:false, placeholder:'One-sentence summary' },
+            { id:'read_time', label:'Read time (min)', type:'number', required:false, placeholder:'8' },
+          ],
+          story: [
+            { id:'title',     label:'Title',           type:'text',   required:true,  placeholder:'Story title' },
+            { id:'category',  label:'Category',        type:'text',   required:false, placeholder:'e.g. Fiction, Memoir' },
+            { id:'excerpt',   label:'Excerpt',         type:'text',   required:false, placeholder:'One-sentence hook' },
+            { id:'read_time', label:'Read time (min)', type:'number', required:false, placeholder:'14' },
+          ],
+          video: [
+            { id:'title',     label:'Title',           type:'text',   required:true,  placeholder:'Video title' },
+            { id:'category',  label:'Category',        type:'text',   required:false, placeholder:'e.g. Documentary, Essay' },
+            { id:'duration',  label:'Duration',        type:'text',   required:false, placeholder:'12:04' },
+          ],
+          thought: [
+            { id:'title',     label:'Title',           type:'text',   required:true,  placeholder:'Thought title' },
+            { id:'category',  label:'Category',        type:'text',   required:false, placeholder:'e.g. Reflection' },
+          ],
+        };
 
-      const formFields = (fields[type] || fields.article);
+        const formFields = textFields[type] || textFields.article;
+        const showVideo  = type === 'video';
+        const showCover  = type !== 'thought';
+        const bodyLabel  = type === 'video' ? 'Description' : type === 'thought' ? 'Content' : 'Body (HTML)';
+        const bodyPh     = type === 'thought' ? 'Write your thought…' : '<p>Your content here…</p>';
 
-      const body = `
+        const body = `
         <div class="admin-page-header">
           <div>
             <div class="admin-page-title">${plural}</div>
@@ -3118,17 +3346,18 @@ const Pages = {
           </div>
           <input type="hidden" id="ef-id-${type}" value="">
           <div class="admin-form-grid">
-            ${formFields.filter(f => !f.full).map(f => `
+            ${formFields.map(f => `
               <div class="admin-form-field">
                 <label class="admin-form-label">${f.label}${f.required?' *':''}</label>
                 <input class="admin-form-input" id="ef-${f.id}-${type}" type="${f.type}" placeholder="${f.placeholder}">
               </div>`).join('')}
           </div>
-          ${formFields.filter(f => f.full).map(f => `
-            <div class="admin-form-field full">
-              <label class="admin-form-label">${f.label}</label>
-              <textarea class="admin-form-input admin-form-textarea" id="ef-${f.id}-${type}" placeholder="${f.placeholder}"></textarea>
-            </div>`).join('')}
+          ${showCover ? UI.uploadWidget(`ef-cover_image-${type}`, 'Cover image', 'image/*', 'covers') : ''}
+          ${showVideo ? UI.uploadWidget(`ef-video_url-${type}`, 'Video file (or paste embed URL)', 'video/*,', 'videos') : ''}
+          <div class="admin-form-field" style="margin-top:8px">
+            <label class="admin-form-label">${bodyLabel}</label>
+            <textarea class="admin-form-input admin-form-textarea" id="ef-body-${type}" placeholder="${bodyPh}"></textarea>
+          </div>
           <div class="admin-form-footer">
             <button class="admin-btn primary" onclick="AdminV2.savePost('${type}')">Save ${typeLabel}</button>
             <button class="admin-btn" onclick="AdminV2.savePost('${type}', true)">Save & Publish</button>
